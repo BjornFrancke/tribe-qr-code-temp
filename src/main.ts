@@ -16,24 +16,24 @@ async function createBorderedImage(qrImageBuffer, fileName, width, height) {
     const qrWidth = 1000; // QR code dimensions
     const qrHeight = 1000; // QR code dimensions
     const qrX = (width - qrWidth) / 2;
-    const qrY = (height - qrHeight) / 2;
+    const qrY = (height - qrHeight) / 2 + 60; // Adjusted to add space below "Happiness"
 
     const qrImage = await nodeCanvas.loadImage(qrImageBuffer);
     ctx.drawImage(qrImage, qrX, qrY, qrWidth, qrHeight);
 
-    // Set font and draw the upper text
+    // Set font and draw the upper text "Happiness"
     ctx.fillStyle = 'white';
     ctx.font = 'bold 40px Arial'; // Adjust font size and style as needed
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('Kom igang - scan QR Koden', width / 2, 50); // Position text at the top center
+    ctx.fillText('Happiness', width / 2, 50); // Position text at the top center
 
     // Set font and draw the lower text "Tribe"
     ctx.fillStyle = 'white';
     ctx.font = 'bold 40px Arial'; // Adjust font size and style as needed
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('Tribe', width / 2, height / 2 + qrHeight / 2 + 30); // Position text below the QR code
+    ctx.fillText('Tribe', width / 2, qrY + qrHeight + 60); // Position text below the QR code with added space
 
     // Save the final image
     const finalBuffer = canvas.toBuffer('image/png');
@@ -79,7 +79,7 @@ const qrCodeImage = new QRCodeStyling({
 });
 
 qrCodeImage.getRawData("png").then((buffer) => {
-    createBorderedImage(buffer, "test.png", 1200, 1200); // Adjusted size for border
+    createBorderedImage(buffer, "test.png", 1200, 1400); // Increased canvas height to 1400
 });
 
 // For svg type
@@ -90,7 +90,7 @@ const qrCodeSvg = new QRCodeStyling({
 });
 
 qrCodeSvg.getRawData("svg").then((buffer) => {
-    createBorderedImage(buffer, "test.svg", 1200, 1200); // Adjusted size for border
+    createBorderedImage(buffer, "test.svg", 1200, 1400); // Increased canvas height to 1400
 });
 
 // For svg type with the inner-image saved as a blob
@@ -107,5 +107,5 @@ const qrCodeSvgWithBlobImage = new QRCodeStyling({
 });
 
 qrCodeSvgWithBlobImage.getRawData("svg").then((buffer) => {
-    createBorderedImage(buffer, "test_blob.svg", 1200, 1200); // Adjusted size for border
+    createBorderedImage(buffer, "test_blob.svg", 1200, 1400); // Increased canvas height to 1400
 });
